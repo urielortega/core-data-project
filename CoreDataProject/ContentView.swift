@@ -13,7 +13,7 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: []) var candies: FetchedResults<Candy>
     
     @State private var filterKey = "name"
-    @State private var filterPredicate = "BEGINSWITH"
+    @State private var filterPredicate: PredicateOperator = .beginsWith
     @State private var filterValue = "T"
     
     var body: some View {
@@ -28,7 +28,7 @@ struct ContentView: View {
             
             Divider()
             
-            FilteredList(filterKey: filterKey, filterPredicate: filterPredicate, filterValue: filterValue) { (candy: Candy) in
+            FilteredList(filterKey: filterKey, filterPredicate: filterPredicate.rawValue, filterValue: filterValue) { (candy: Candy) in
                 Text(candy.wrappedName)
             }
                         
@@ -60,27 +60,27 @@ struct ContentView: View {
                 try? moc.save()
             } */
             
-            Button("Show candies that begin with T") {
+            Button("Show candies that begin with 'T'") {
                 filterKey = "name"
-                filterPredicate = "BEGINSWITH"
+                filterPredicate = .beginsWith
                 filterValue = "T"
             }
             
-            Button("Show candies that begin with K") {
+            Button("Show candies that contain the letter 'a'") {
                 filterKey = "name"
-                filterPredicate = "BEGINSWITH"
-                filterValue = "K"
+                filterPredicate = .contains
+                filterValue = "a"
             }
             
-            Button("Show candies that begin with M") {
+            Button("Show candies that end with 'x'") {
                 filterKey = "name"
-                filterPredicate = "BEGINSWITH"
-                filterValue = "M"
+                filterPredicate = .endsWith
+                filterValue = "x"
             }
             
             Button("Show candies from UK") {
                 filterKey = "origin.shortName"
-                filterPredicate = "=="
+                filterPredicate = .equals
                 filterValue = "UK"
             }
         }
