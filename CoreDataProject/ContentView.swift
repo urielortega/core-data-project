@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var filterKey = "name"
     @State private var filterPredicate: PredicateOperator = .beginsWith
     @State private var filterValue = "T"
-    
+            
     var body: some View {
         VStack {
             List {
@@ -28,7 +28,14 @@ struct ContentView: View {
             
             Divider()
             
-            FilteredList(filterKey: filterKey, filterPredicate: filterPredicate.rawValue, filterValue: filterValue) { (candy: Candy) in
+            FilteredList(
+                filterKey: filterKey,
+                filterPredicate: filterPredicate.rawValue,
+                filterValue: filterValue,
+                sortDescriptors: [
+                    SortDescriptor<Candy>(\.name, order: .reverse)
+                ]
+            ) { (candy: Candy) in
                 Text(candy.wrappedName)
             }
                         
