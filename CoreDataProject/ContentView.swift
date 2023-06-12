@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var filterKey = "name"
     @State private var filterPredicate: PredicateOperator = .beginsWith
     @State private var filterValue = "T"
+    @State private var sortDescriptors = [SortDescriptor<Candy>]()
             
     var body: some View {
         VStack {
@@ -32,9 +33,7 @@ struct ContentView: View {
                 filterKey: filterKey,
                 filterPredicate: filterPredicate.rawValue,
                 filterValue: filterValue,
-                sortDescriptors: [
-                    SortDescriptor<Candy>(\.name, order: .reverse)
-                ]
+                sortDescriptors: sortDescriptors
             ) { (candy: Candy) in
                 Text(candy.wrappedName)
             }
@@ -89,6 +88,14 @@ struct ContentView: View {
                 filterKey = "origin.shortName"
                 filterPredicate = .equals
                 filterValue = "UK"
+            }
+            
+            Button("Sort A-Z") {
+                sortDescriptors = [SortDescriptor(\.name)]
+            }
+            
+            Button("Sort Z-A") {
+                sortDescriptors = [SortDescriptor(\.name, order: .reverse)]
             }
         }
     }
